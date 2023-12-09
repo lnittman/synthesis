@@ -26,10 +26,6 @@ async def pull_request(repo_name, pr_number):
 async def repo(repo_name):
     return synth.repo(repo_name)
 
-@app.get("/repos/")
-async def repos(repos):
-    return synth.repos(repos)
-
 def main():
     parser = argparse.ArgumentParser(description='Analyze GitHub repositories for pull request quality.')
     parser.add_argument('--repo', type=str, help='Name of the GitHub repository')
