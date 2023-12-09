@@ -1,0 +1,14 @@
+README.md
+setup.py
+scripts/__init__.py
+scripts/synth.py
+src/__init__.py
+src/assistant.py
+src/github.py
+src/pull_request.py
+src/repository.py
+synth.egg-info/PKG-INFO
+synth.egg-info/SOURCES.txt
+synth.egg-info/dependency_links.txt
+synth.egg-info/entry_points.txt
+synth.egg-info/top_level.txt
