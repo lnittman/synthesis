@@ -15,7 +15,7 @@ class Cli:
         self.parser.add_argument('--commit', type=int, help='Pull request number')
         self.parser.add_argument('--user', type=str, help='GitHub username for scoping actions')
 
-    def run(self):
+    async def run(self):
         args = self._parse_args()
         synth = Synth(owner=GITHUB_OWNER, token=GITHUB_TOKEN, key=OPENAI_API_KEY)
 
@@ -27,7 +27,7 @@ class Cli:
         elif args.commit:
             synth.commit(args.repo, args.commit)
         elif args.pr:
-            synth.pull_request(args.repo, args.pr)
+            await synth.pull_request(args.repo, args.pr)
         elif args.repo:
             synth.repo(args.repo)
         else:

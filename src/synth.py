@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import os
+import requests
 
+from itertools import islice
 from github import Auth, Github
 from logging import basicConfig, info, INFO
 
@@ -33,7 +35,7 @@ class Synth:
     def commit(self, repo_name, commit_sha):
         info(f"Analyzing {repo_name} commit {commit_sha}...")
 
-    def pull_request(self, repo_name, pr_number):
+    async def pull_request(self, repo_name, pr_number):
         info(f"Analyzing {repo_name} pull request #{pr_number}...")
 
         try:
@@ -47,6 +49,33 @@ class Synth:
             raise Exception(f"Pull request #{pr_number} not found: {e}")
         
         info(f"Pull Request: {pull_request.title}")
+        info(f"Description: {pull_request.body}")
+
+        main_head = repo.get_branch('main')
+        print(f"Main Head: {main_head.commit.sha}")
+
+        dev_head = repo.get_branch('dev')
+        print(f"Dev Head: {dev_head.commit.sha}")
+
+        diff_url = repo.compare(dev_head.commit.sha, main_head.commit.sha).diff_url
+        info(f"Diff URL: {diff_url}")
+
+        diff_response = requests.get(diff_url)
+        print(f"Diff Response: {diff_response.status_code}")
+
+        if diff_response.status_code == 200:
+            diff_text = diff_response.text
+            print("Code Diff:\n", diff_text)
+        else:
+            print(f"Failed to fetch diff from {diff_url} with status code {diff_response.status_code}")
+
+        comments = pull_request.get_issue_comments()
+        if comments.totalCount > 0:
+            print("Comments:")
+            for comment in comments:
+                print(f"{comment.user.login} commented: {comment.body}")
+        else:
+            print("No comments")
 
     def repo(self, repo_name):
         info(f"Analyzing {repo_name}...")
