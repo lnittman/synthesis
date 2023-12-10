@@ -9,5 +9,5 @@ setup(
     install_requires=[
         # Add your project dependencies here
     ],
-    scripts=['app/main.py']
+    scripts=['app/synth.py']
 )
