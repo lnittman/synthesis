@@ -5,7 +5,6 @@ import sys
 from constants.config import GITHUB_OWNER, GITHUB_TOKEN, OPENAI_API_KEY
 from src.synth import Synth
 
-
 class Cli:
     def __init__(self):
         self.parser = argparse.ArgumentParser(description='synth cli')

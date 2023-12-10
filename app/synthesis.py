@@ -9,11 +9,8 @@ from app.cli import Cli
 
 load_dotenv()
 
-async def run_cli():
-    await Cli().run()
-
 if __name__ == "__main__":
     if os.getenv('SYNTH_CLI'):
-        asyncio.run(run_cli())
+        asyncio.run(Cli().run())
     else:
         run_service()

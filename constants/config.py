@@ -1,6 +1,9 @@
-GITHUB_OWNER = "StemsDAO"
-GITHUB_TOKEN = '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'
+GITHUB_OWNER = "lnittman"
+GITHUB_TOKEN = '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'
 OPENAI_API_KEY = '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'
+
+MAIN_BRANCH = "main"
+DEV_BRANCH = "dev"
 
 ALLOWED_FILE_TYPES = [
     '.py',                              # Python files
@@ -42,6 +45,26 @@ EXCLUDE_FILE_TYPES = [
     '.wav', '.aac', '.mp3', '.flac',    # Audio files
     '.whl', '.gz',                      # Distribution packages
     '.xcuserstate',                     # Xcode user state
+    '.lock',                            # Lock files
+]
+
+EXCLUDE_FILES = [
+    '.DS_Store',                        # Mac OS metadata
+    '.gitignore',                       # Gitignore files
+    '__init__.py',                      # Python init files
+    'LICENSE',                          # License files
+    'README.md',                        # Readme files
+    'package-lock.json',                # NPM lock files
+    'webpack.config.js',                # Webpack config files
+    'webpack.config.prod.js',           # Webpack config files
+    'webpack.config.dev.js',            # Webpack config files
+    'webpack.config.common.js',         # Webpack config files
+    'webpack.config.base.js',           # Webpack config files
+    'webpack.config.vendor.js',         # Webpack config files
+    'webpack.config.vendor.prod.js',    # Webpack config files
+    'webpack.config.vendor.dev.js',     # Webpack config files
+    'webpack.config.vendor.common.js',  # Webpack config files
+    'webpack.config.vendor.base.js',    # Webpack config files
 ]
 
 EXCLUDE_DIRS = [

@@ -9,5 +9,5 @@ setup(
     install_requires=[
         # Add your project dependencies here
     ],
-    scripts=['app/synth.py']
+    scripts=['app/synthesize.py']
 )
