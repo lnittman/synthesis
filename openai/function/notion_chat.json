@@ -1,0 +1,83 @@
+{
+    "name": "notion_chat",
+    "description": "Respond to user prompts with information from the Notion data (file-HGX9AMG0pojsFQ3Pz6oARlPT) and codebase (file-NaoLa6Di1Y3U9DpPGYDfaxLf) per your instructions.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "chat": {
+          "type": "array",
+          "description": "Array of messages",
+          "items": {
+            "type": "object",
+            "description": "Represents message",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "The message"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          }
+        },
+        "code": {
+          "type": "array",
+          "description": "Array of code snippets (can be empty)",
+          "items": {
+            "type": "object",
+            "description": "A code snippet",
+            "properties": {
+              "file": {
+                "type": "string",
+                "description": "The file path of the code snippet"
+              },
+              "desc": {
+                "type": "string",
+                "description": "Technical description of the code snippet"
+              },
+              "lines": {
+                "type": "string",
+                "description": "The lines of code, example: '255: /// Sets the playback rate of all tracks.\\n256: /// - Parameter rate: The new playback rate. Must be between 0.25 and 2.0.\\n257: @objc(setPlaybackRate:)\\n258: func setPlaybackRate(_ rate: NSNumber) {\\n259: guard rate.doubleValue >= 0.25 && rate.doubleValue <= 2.0 else {\\n260: return\\n261: }\\n262: \\n263: playbackRate = rate.doubleValue\\n264: session?.setPlaybackRate(rate.doubleValue, time: currentTime)\\n265: }'"
+              },
+              "start": {
+                "type": "integer",
+                "description": "The start line number of the code snippet, example: 255"
+              },
+              "end": {
+                "type": "integer",
+                "description": "The end line number of the code snippet, example: 264"
+              }
+            },
+            "required": [
+              "file",
+              "desc",
+              "lines",
+              "start",
+              "end"
+            ]
+          }
+        },
+        "external": {
+          "type": "array",
+          "description": "Array of external links (can be empty)",
+          "items": {
+            "type": "string",
+            "description": "An external URL"
+          }
+        },
+        "notion": {
+          "type": "array",
+          "description": "Array of Notion links",
+          "items": {
+            "type": "string",
+            "description": "A Notion link"
+          }
+        }
+      },
+      "required": [
+        "chat",
+        "notion"
+      ]
+    }
+  }

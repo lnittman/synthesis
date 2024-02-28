@@ -6,6 +6,7 @@ from subprocess import run
 from constants.config import GITHUB_OWNER, GITHUB_TOKEN, OPENAI_API_KEY
 from src.synth import Synth
 
+"""
 app = FastAPI(title="Synth API")
 synth = Synth(owner=GITHUB_OWNER, token=GITHUB_TOKEN, key=OPENAI_API_KEY)
 
@@ -31,11 +32,11 @@ async def pull_request(repo_name, pr_number):
 
 @app.get("/branch/")
 async def branch(repo_name, branch_name):
-    return synth.pull_request(repo_name, branch_name)
+    return synth.branch(repo_name, branch_name)
 
 @app.get("/commit/")
 async def commit(repo_name, commit_sha):
-    return synth.pull_request(repo_name, commit_sha)
+    return synth.commit(repo_name, commit_sha)
 
 def kill_process_by_port(port: int):
     for proc in process_iter(['pid', 'name', 'connections']):
@@ -50,3 +51,4 @@ def run_service():
     kill_process_by_port(8000)
     run(["gunicorn", "app.main:app", "-c", "gunicorn_config.py"])
 
+"""

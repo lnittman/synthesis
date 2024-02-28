@@ -11,6 +11,7 @@ from constants.config import ALLOWED_FILE_TYPES, EXCLUDE_FILE_TYPES, EXCLUDE_DIR
 from src.openai.assistant import Assistant
 
 basicConfig(level=INFO)
+OUTPUT_DIR = os.path.expanduser(f"~/.synth/output/")
 
 class Synth:
     def __init__(self, owner: str, token: str, key: str):
@@ -20,13 +21,14 @@ class Synth:
         self.repos = {}
         self.file_contents = {}
 
-        self.assistant = Assistant(key)
+        # self.assistant = Assistant(key)
         self.github = Github(auth=Auth.Token(token))
 
         for repo in self.github.get_user().get_repos():
             if repo.name in EXCLUDE_REPOS:
                 continue
 
+            print(f"Repo: {repo.name}")
             self.repos[repo.name] = repo
 
     def branch(self, repo_name, branch_name):
@@ -89,6 +91,7 @@ class Synth:
         info(f"Pushed at: {repo.pushed_at}")
 
         self.file_contents[repo_name] = self._get_repo_contents(repo)
+        print(f"File Contents: {self.file_contents[repo_name]}")
         self._save_file_contents_to_disk(repo)
 
     def set_user(self, username):
@@ -106,7 +109,6 @@ class Synth:
                 new_path = f"{path}/{content_item.name}" if path else content_item.name
                 self._get_repo_contents(repo, new_path, repo_contents)
             else:
-                print(f"Getting file contents for {content_item.name}...")
                 file_path = f"{path}/{content_item.name}" if path else content_item.name
                 repo_contents[file_path] = self._get_file_info(content_item, file_path, repo_contents)
 
@@ -114,9 +116,10 @@ class Synth:
     
     def _get_file_info(self, content_item, path, repo_contents):
         file_extension = os.path.splitext(content_item.name)[1]
-        if file_extension in EXCLUDE_FILE_TYPES or file_extension not in ALLOWED_FILE_TYPES:
+        if file_extension in EXCLUDE_FILE_TYPES or file_extension in EXCLUDE_FILES or file_extension not in ALLOWED_FILE_TYPES:
             return None 
 
+            print(f"Getting file contents for {content_item.name}...")
         file_path = f"{path}/{content_item.name}" if path else content_item.name
 
         try:
@@ -129,19 +132,18 @@ class Synth:
         return file_content 
     
     def _save_file_contents_to_disk(self, repo):
-        repo_dir = os.path.expanduser(f"~/.synth/output/{self.owner}/{repo.name}/")
+        repo_dir = os.path.expanduser(f"{OUTPUT_DIR}/{self.owner}/{repo.name}/")
         if not os.path.exists(repo_dir):
             os.makedirs(repo_dir)
 
-        file_name = f"{repo.name}.txt"
-        file_path = os.path.join(repo_dir, file_name)
+        out_name = f"{repo.name}.txt"
+        out_path = os.path.join(repo_dir, out_name)
 
-        with open(file_path, 'w') as f:
-            for path, file_content in self.file_contents[repo.name].items():
-                if not file_content:
-                    continue
+        with open(out_path, 'w') as out_file:
+            for file_path, file_content in self.file_contents[repo.name].items():
+                if not file_content: continue
+                out_file.write(f"{file_path}:\n\n")
 
-                condensed_content = file_content.replace('\n', '\\n')
-
-                f.write(f"{path}: /// ")
-                f.write(f"{condensed_content}\n")
+                lines = file_content.split('\n')
+                for i, line in enumerate(lines, start=0):
+                    out_file.write(f"{i + 1}\\n")

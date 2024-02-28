@@ -1,0 +1,88 @@
+{
+    "name": "notion_api",
+    "description": "Respond to user prompts with commands for updating the Notion data (stems-notion.txt) via the Notion API [https://developers.notion.com/reference] per your instructions. Refer to the codebase (synthesis.txt) to inform your behavior.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "commands": {
+                "type": "array",
+                "description": "Array of curl commands against Notion API [https://developers.notion.com/reference]",
+                "items": {
+                    "type": "object",
+                    "description": "Represents a curl command to send to the user",
+                    "properties": {
+                        "command": {
+                            "type": "string",
+                            "description": "bash executable Notion API curl command, example curl -X POST 'https://api.notion.com/v1/pages' \\ -H 'Authorization: Bearer {access_token}' \\ -H 'Notion-Version: 2022-02-22' \\ -H 'Content-Type: application/json' \\ --data '{\"parent\": {\"database_id\": \"{database_id}\"}, \"properties\": {\"Name\": {\"title\": [{\"text\": {\"content\": \"Set Up Fastlane for Mobile Repo\"}}]}, \"Assignee\": {\"people\": [{\"object\": \"user\", \"id\": \"{Roman_id}\"}]}, \"Status\": {\"select\": {\"name\": \"Not Started\"}}, \"Type\": {\"select\": {\"name\": \"Task\"}}, \"Tags\": {\"multi_select\": [{\"name\": \"Mobile\"}]}, \"Project\": {\"relation\": [{\"id\": \"{Mobile_App_v3_id}\"}]}, \"Sprint\": {\"relation\": [{\"id\": \"{Sprint_37_id}\"}]}, \"Description\": {\"rich_text\": [{\"text\": {\"content\": \"Set up the fastlane automation tool to streamline the mobile application deployment process. Include configuration for automated deployments, generation of screenshots, and provisioning profile management.\"}}]}, \"External References\": {\"url\": \"https://docs.fastlane.tools\"}}}"
+                        },
+                        "desc": {
+                            "type": "string",
+                            "description": "The description of the curl command to send to the user"
+                        }
+                    },
+                    "required": [
+                        "command",
+                        "desc"
+                    ]
+                }
+            },
+            "code": {
+                "type": "array",
+                "description": "Array of code snippets (can be empty)",
+                "items": {
+                    "type": "object",
+                    "description": "A code snippet",
+                    "properties": {
+                        "file": {
+                            "type": "string",
+                            "description": "The file path of the code snippet"
+                        },
+                        "desc": {
+                            "type": "string",
+                            "description": "Technical description of the code snippet"
+                        },
+                        "lines": {
+                            "type": "string",
+                            "description": "The lines of code, example: '255: /// Sets the playback rate of all tracks.\\n256: /// - Parameter rate: The new playback rate. Must be between 0.25 and 2.0.\\n257: @objc(setPlaybackRate:)\\n258: func setPlaybackRate(_ rate: NSNumber) {\\n259: guard rate.doubleValue >= 0.25 && rate.doubleValue <= 2.0 else {\\n260: return\\n261: }\\n262: \\n263: playbackRate = rate.doubleValue\\n264: session?.setPlaybackRate(rate.doubleValue, time: currentTime)\\n265: }'"
+                        },
+                        "start": {
+                            "type": "integer",
+                            "description": "The start line number of the code snippet, example: 255"
+                        },
+                        "end": {
+                            "type": "integer",
+                            "description": "The end line number of the code snippet, example: 264"
+                        }
+                    },
+                    "required": [
+                        "file",
+                        "desc",
+                        "lines",
+                        "start",
+                        "end"
+                    ]
+                }
+            },
+            "external": {
+                "type": "array",
+                "description": "Array of external links (can be empty)",
+                "items": {
+                    "type": "string",
+                    "description": "An external URL"
+                }
+            },
+            "notion": {
+                "type": "array",
+                "description": "Array of Notion links",
+                "items": {
+                    "type": "string",
+                    "description": "A Notion link"
+                }
+            }
+        },
+        "required": [
+            "commands",
+            "notion"
+        ]
+    }
+}
